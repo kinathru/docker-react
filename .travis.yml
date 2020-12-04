@@ -8,3 +8,15 @@ before_install:
 
 script:
   -  docker run -e CI=true kinath/docker-react npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2" #You can get this from the application URL
+  app: "docker-react-demo" #name of the elasticbeanstalk application name
+  env: "DockerReactDemo-env" #You can get this from the beanstalk dashboard
+  bucket_name: "elasticbeanstalk-us-east-2-069531773516" #For every beanstalk app there's a s3 bucket created. 
+  bucket_path: "docker-react-demo" #You can use the same name as the application
+  on:
+    branch: master #Deploy the application, only if the code is modified in the master branch.
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
